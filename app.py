@@ -29,7 +29,6 @@ def encode_categorical(df):
         label_encoders[col] = le
     return df, label_encoders
 
-
 # Кэширование обучения модели
 @st.cache_resource
 def train_xgboost(X_train, y_train):
@@ -54,58 +53,65 @@ if uploaded_file is not None:
     st.write("### Первые 5 строк данных:")
     st.dataframe(df.head())
 
-    target_column = st.selectbox("Выберите целевую переменную (таргет)", df.columns)
-    X = df.drop(columns=[target_column])
-    y = df[target_column]
+    target_column = st.selectbox("Выберите целевую переменную (таргет)", df.columns, index=None,
+    placeholder="Таргет не выбран")
 
-    X, label_encoders = encode_categorical(X)
+    if target_column is not None:
+        X = df.drop(columns=[target_column])
+        y = df[target_column]
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
+        X, label_encoders = encode_categorical(X)
 
-    st.write(f"**Размер тренировочной выборки:** {X_train.shape[0]} строк")
-    st.write(f"**Размер тестовой выборки:** {X_test.shape[0]} строк")
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-    # Обучение модели
-    start_time = time.time()
-    model = train_xgboost(X_train, y_train)
-    train_time = time.time() - start_time
-    st.write(f"✅ **Модель обучена за {train_time:.2f} секунд**")
+        y_train = LabelEncoder().fit_transform(y_train)
 
-    # Предсказания
-    y_pred = model.predict(X_test)
-    y_pred_proba = model.predict_proba(X_test)[:, 1]
+        st.write(f"**Размер тренировочной выборки:** {X_train.shape[0]} строк")
+        st.write(f"**Размер тестовой выборки:** {X_test.shape[0]} строк")
 
-    # Метрики
-    st.write("### 🔥 Результаты модели:")
-    st.write(f"✅ **Accuracy:** {accuracy_score(y_test, y_pred):.4f}")
-    st.write(f"✅ **Precision:** {precision_score(y_test, y_pred, average='weighted'):.4f}")
-    st.write(f"✅ **Recall:** {recall_score(y_test, y_pred, average='weighted'):.4f}")
-    st.write(f"✅ **ROC AUC:** {roc_auc_score(y_test, y_pred_proba):.4f}")
+        # Обучение модели
+        start_time = time.time()
+        model = train_xgboost(X_train, y_train)
+        train_time = time.time() - start_time
+        st.write(f"✅ **Модель обучена за {train_time:.2f} секунд**")
 
-    # График важности признаков
-    st.write("### Важность признаков")
-    feature_importances = pd.DataFrame(
-        {"Feature": X.columns, "Importance": model.feature_importances_}
-    ).sort_values(by="Importance", ascending=False)
+        # Предсказания
+        y_pred = model.predict(X_test)
+        y_pred_proba = model.predict_proba(X_test)[:, 1]
 
-    fig, ax = plt.subplots(figsize=(10, 5))
-    sns.barplot(x="Importance", y="Feature", data=feature_importances, ax=ax)
-    st.pyplot(fig)
+        # Метрики
+        st.write("### 🔥 Результаты модели:")
+        st.write(f"✅ **Accuracy:** {accuracy_score(y_test, y_pred):.4f}")
+        st.write(f"✅ **Precision:** {precision_score(y_test, y_pred, average='weighted'):.4f}")
+        st.write(f"✅ **Recall:** {recall_score(y_test, y_pred, average='weighted'):.4f}")
+        st.write(f"✅ **ROC AUC:** {roc_auc_score(y_test, y_pred_proba):.4f}")
 
-    st.success("✅ Обучение завершено!")
+        # График важности признаков
+        st.write("### Важность признаков")
+        feature_importances = pd.DataFrame(
+            {"Feature": X.columns, "Importance": model.feature_importances_}
+        ).sort_values(by="Importance", ascending=False)
 
-    # Ввод данных вручную
-    st.write("### 🔍 Введите данные для предсказания вероятности выплаты кредита")
-    input_data = {}
-    for col in X.columns:
-        if col in label_encoders:
-            options = list(label_encoders[col].classes_)
-            selected = st.selectbox(f"{col}", options)
-            input_data[col] = label_encoders[col].transform([selected])[0]
-        else:
-            input_data[col] = st.number_input(f"{col}", value=float(X[col].median()))
+        fig, ax = plt.subplots(figsize=(10, 177))
+        sns.barplot(x="Importance", y="Feature", data=feature_importances, ax=ax)
+        st.pyplot(fig)
 
-    if st.button("Предсказать вероятность выплаты кредита"):
-        input_df = pd.DataFrame([input_data])
-        probability = model.predict_proba(input_df)[:, 1][0]
-        st.write(f"🔮 **Вероятность выплаты кредита:** {probability:.4f}")
+        st.dataframe(feature_importances)
+
+        st.success("✅ Обучение завершено!")
+
+        # Ввод данных вручную
+        st.write("### 🔍 Введите данные для предсказания вероятности выплаты кредита")
+        input_data = {}
+        for col in X.columns:
+            if col in label_encoders:
+                options = list(label_encoders[col].classes_)
+                selected = st.selectbox(f"{col}", options)
+                input_data[col] = label_encoders[col].transform([selected])[0]
+            else:
+                input_data[col] = st.number_input(f"{col}", value=float(X[col].median()))
+
+        if st.button("Предсказать вероятность выплаты кредита"):
+            input_df = pd.DataFrame([input_data])
+            probability = model.predict_proba(input_df)[:, 1][0]
+            st.write(f"🔮 **Вероятность выплаты кредита:** {probability:.4f}")
