@@ -96,6 +96,7 @@ if uploaded_file is not None:
         sns.barplot(x="Importance", y="Feature", data=feature_importances, ax=ax)
         st.pyplot(fig)
 
+        feature_importances.reset_index(drop=True, inplace=True)
         st.dataframe(feature_importances)
 
         st.success("✅ Обучение завершено!")
