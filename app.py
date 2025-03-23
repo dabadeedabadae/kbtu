@@ -11,12 +11,105 @@ from sklearn.impute import SimpleImputer
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 
+st.markdown("""
+    <style>
+    /* Сайдбар фон */
+    section[data-testid="stSidebar"] {
+        background-color: #2D5084 !important;
+    }
+
+    /* Контейнер selectbox */
+    div[data-testid="stSidebar"] div[data-testid="stSelectbox"] {
+        margin-top: 10px;
+    }
+
+    /* Надпись "Выберите вкладку" */
+    div[data-testid="stSidebar"] label,
+    div[data-testid="stSidebar"] .css-1c7y2kd,   /* для старых версий Streamlit */
+    div[data-testid="stSidebar"] .css-10trblm,   /* для новых версий Streamlit */
+    div[data-testid="stSidebar"] .e1f1d6gn4,     /* ещё один вариант класса */
+    div[data-testid="stSidebar"] .st-bv {
+        color: white !important;
+        font-weight: 500 !important;
+        font-size: 16px !important;
+    }
+
+    /* Селектбокс (выбранное значение) */
+    div[data-testid="stSidebar"] div[role="combobox"] {
+        background-color: #001E48 !important;
+        border: 1px solid #001E48 !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        color: white !important;
+    }
+
+    /* Внутренности */
+    div[data-testid="stSidebar"] div[role="combobox"] input,
+    div[data-testid="stSidebar"] div[role="combobox"] span {
+        background-color: #001E48 !important;
+        color: white !important;
+    }
+
+    div[data-testid="stSidebar"] div[role="combobox"] svg {
+        color: white !important;
+    }
+
+    /* Выпадающий список */
+    ul[role="listbox"] {
+        background-color: #001E48 !important;
+        color: white !important;
+        border: none !important;
+    }
+
+    li[role="option"] {
+        background-color: #001E48 !important;
+        color: white !important;
+    }
+
+    li[role="option"]:hover,
+    li[aria-selected="true"] {
+        background-color: #003366 !important;
+    }
+
+    /* BaseWeb select styles override */
+    [data-testid="stSidebar"] [data-baseweb="select"] > div,
+    [data-testid="stSidebar"] [data-baseweb="select"] * {
+        background-color: #001E48 !important;
+        color: white !important;
+        border: none !important;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+
+
+
+
 # Пути для сохранения моделей и параметров
 MODEL_PATH_XGB = "model_xgb.json"
 MODEL_PATH_LR = "model_lr.json"
 LABEL_ENCODERS_PATH = "label_encoders.json"
 FEATURES_PATH = "features.json"
 SCALER_PATH = "scaler.json"
+
+# Выбор вкладки через selectbox
+menu = st.sidebar.selectbox(
+    "Выберите вкладку",
+    [
+        "🏋️‍♂️ Обучение XGBoost",
+        "📊 Обучение Logistic Regression",
+        "🔍 Проверка XGBoost",
+        "📊 Проверка Logistic Regression"
+    ]
+)
+
+# Выбор типа модели
+if "XGBoost" in menu:
+    model_type = "XGBoost" if "Обучение" in menu else "xgb"
+elif "Logistic Regression" in menu:
+    model_type = "Logistic Regression" if "Обучение" in menu else "lr"
+
+# Функции
 
 def save_model(model, feature_names, model_path):
     if isinstance(model, xgb.XGBClassifier):
@@ -31,15 +124,14 @@ def load_model(model_path, model_type):
     if model_type == "xgb":
         model = xgb.XGBClassifier()
         model.load_model(model_path)
-        return model
     else:
         with open(model_path, "r") as f:
             data = json.load(f)
         model = LogisticRegression()
         model.coef_ = np.array(data["coef"])
         model.intercept_ = np.array(data["intercept"])
-        model.classes_ = np.array([0, 1])  # Добавляем классы вручную
-        return model
+        model.classes_ = np.array([0, 1])
+    return model
 
 def save_label_encoders(label_encoders):
     with open(LABEL_ENCODERS_PATH, "w") as f:
@@ -79,17 +171,8 @@ def align_features(df, feature_names):
             df[col] = 0
     return df[feature_names]
 
+# Интерфейс
 st.title("🚀 Антифрод ML")
-menu = st.sidebar.selectbox("Выберите вкладку", ["🏋️‍♂️ Обучение XGBoost", "📊 Обучение Logistic Regression", "🔍 Проверка XGBoost", "📊 Проверка Logistic Regression"])
-
-if menu == "🏋️‍♂️ Обучение XGBoost":
-    model_type = "XGBoost"
-elif menu == "📊 Обучение Logistic Regression":
-    model_type = "Logistic Regression"
-elif menu == "🔍 Проверка XGBoost":
-    model_type = "xgb"
-elif menu == "📊 Проверка Logistic Regression":
-    model_type = "lr"
 
 if "Обучение" in menu:
     st.header(f"📌 Обучение модели {model_type}")
