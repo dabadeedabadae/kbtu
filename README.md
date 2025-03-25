@@ -78,3 +78,7 @@ streamlit run app.py
 - **Gini**: \(2 	imes AUC - 1\)
 - **KS-индекс**: максимум разности между распределениями плохих и хороших
 - **Accuracy, Precision, Recall** — стандартные метрики классификации
+
+## QR КОД
+<img width="366" alt="Снимок экрана 2025-03-25 в 22 30 17" src="https://github.com/user-attachments/assets/e37f73ce-f8d2-4a43-944e-e8e5d9e0a179" />
+
