@@ -194,15 +194,9 @@ if "Обучение" in menu:
 
             # Предсказания
             y_train_pred = model.predict(X_train)
+            y_train_proba = model.predict_proba(X_train)[:, 1]
             y_test_pred = model.predict(X_test)
             y_test_proba = model.predict_proba(X_test)[:, 1]
-
-            # Метрики
-            accuracy = accuracy_score(y_test, y_test_pred)
-            precision = precision_score(y_test, y_test_pred)
-            recall = recall_score(y_test, y_test_pred)
-            roc_auc = roc_auc_score(y_test, y_test_proba)
-            gini = 2 * roc_auc - 1
 
 
             # Индекс Колмогорова-Смирнова
@@ -210,8 +204,21 @@ if "Обучение" in menu:
                 from scipy.stats import ks_2samp
                 return ks_2samp(y_proba[y_true == 1], y_proba[y_true == 0]).statistic
 
-
+            # Метрики (тест)
+            accuracy = accuracy_score(y_test, y_test_pred)
+            precision = precision_score(y_test, y_test_pred)
+            recall = recall_score(y_test, y_test_pred)
+            roc_auc = roc_auc_score(y_test, y_test_proba)
+            gini = 2 * roc_auc - 1
             ks = ks_statistic(y_test.to_numpy(), y_test_proba)
+
+            # Метрики (обучение)
+            accuracy_train = accuracy_score(y_train, y_train_pred)
+            precision_train = precision_score(y_train, y_train_pred)
+            recall_train = recall_score(y_train, y_train_pred)
+            roc_auc_train = roc_auc_score(y_train, y_train_proba)
+            gini_train = 2 * roc_auc - 1
+            ks_train = ks_statistic(y_train.to_numpy(), y_train_proba)
 
             # Сохраняем всё
             model_path = MODEL_PATH_XGB if model_type == "XGBoost" else MODEL_PATH_LR
@@ -222,13 +229,21 @@ if "Обучение" in menu:
             # Отображение результатов
             st.success(f"✅ {model_type} модель обучена и сохранена")
 
-            st.subheader("📈 Результаты обучения")
+            st.subheader("📈 Результаты обучения (тест)")
             st.markdown(f"⏱ **Время обучения:** {train_time:.2f} сек")
             st.markdown(f"📊 **Gini индекс:** {gini:.4f}")
             st.markdown(f"📊 **KS индекс:** {ks:.4f}")
             st.markdown(f"✅ **Accuracy:** {accuracy:.4f}")
             st.markdown(f"🎯 **Precision:** {precision:.4f}")
             st.markdown(f"🔁 **Recall:** {recall:.4f}")
+
+            st.subheader("📈 Результаты обучения (обучение)")
+            st.markdown(f"⏱ **Время обучения:** {train_time:.2f} сек")
+            st.markdown(f"📊 **Gini индекс:** {gini_train:.4f}")
+            st.markdown(f"📊 **KS индекс:** {ks_train:.4f}")
+            st.markdown(f"✅ **Accuracy:** {accuracy_train:.4f}")
+            st.markdown(f"🎯 **Precision:** {precision_train:.4f}")
+            st.markdown(f"🔁 **Recall:** {recall_train:.4f}")
 
             # Дополнительные данные
             st.subheader("🔢 Пример расчётов")
@@ -238,8 +253,16 @@ if "Обучение" in menu:
                 "Значение": [round(train_time, 2), round(gini, 4), round(ks, 4), round(accuracy, 4),
                              round(precision, 4), round(recall, 4), round(roc_auc, 4)]
             })
-            st.subheader("📊 Сводная таблица метрик")
+            metrics_df_train = pd.DataFrame({
+                "Метрика": ["Время обучения (сек)", "Gini", "KS", "Accuracy", "Precision", "Recall", "ROC AUC"],
+                "Значение": [round(train_time, 2), round(gini_train, 4), round(ks_train, 4), round(accuracy_train, 4),
+                             round(precision_train, 4), round(recall_train, 4), round(roc_auc_train, 4)]
+            })
+            st.subheader("📊 Сводная таблица метрик (тест)")
             st.table(metrics_df)
+
+            st.subheader("📊 Сводная таблица метрик (обучение)")
+            st.table(metrics_df_train)
 
             # ROC-кривая
             fpr, tpr, _ = roc_curve(y_test, y_test_proba)
