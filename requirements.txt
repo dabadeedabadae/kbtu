@@ -44,7 +44,6 @@ shap==0.47.1
 six==1.17.0
 slicer==0.0.8
 smmap==5.0.2
-snap==0.5
 streamlit==1.43.2
 tenacity==9.0.0
 threadpoolctl==3.6.0
