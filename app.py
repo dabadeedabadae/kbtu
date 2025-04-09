@@ -12,6 +12,8 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, precision_score, recall_score, roc_auc_score
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve
+import shap
+
 
 st.markdown("""
 <style>
@@ -162,6 +164,22 @@ def align_features(df, feature_names):
             df[col] = 0
     return df[feature_names]
 
+def aggregate_feature_group(df, prefix, agg_funcs=["sum", "mean", "max"]):
+    group_cols = [col for col in df.columns if col.startswith(prefix)]
+    if not group_cols:
+        return df
+    for func in agg_funcs:
+        new_col = f"{prefix}{func}"
+        if func == "sum":
+            df[new_col] = df[group_cols].sum(axis=1)
+        elif func == "mean":
+            df[new_col] = df[group_cols].mean(axis=1)
+        elif func == "max":
+            df[new_col] = df[group_cols].max(axis=1)
+    return df
+
+
+
 # Интерфейс
 st.title("🚀 Антифрод ML")
 
@@ -176,6 +194,9 @@ if "Обучение" in menu:
         else:
             X, y = df.drop(columns=["GB_flag"]), df["GB_flag"]
             X_raw = X.copy()
+            X = aggregate_feature_group(X, "MONTH_OVERDUE_")
+            X_raw = aggregate_feature_group(X_raw, "MONTH_OVERDUE_")
+
             X, label_encoders = encode_categorical(X)
             imputer = SimpleImputer(strategy="mean")
             X = pd.DataFrame(imputer.fit_transform(X), columns=X.columns)
@@ -196,6 +217,28 @@ if "Обучение" in menu:
             y_train_pred = model.predict(X_train)
             y_test_pred = model.predict(X_test)
             y_test_proba = model.predict_proba(X_test)[:, 1]
+
+            if model_type == "XGBoost":
+                st.subheader("🧠 SHAP: Интерпретация модели")
+                explainer = shap.Explainer(model, X_train)
+                shap_values = explainer(X_test)
+
+                st.subheader("📌 SHAP Summary Plot")
+                fig_summary = plt.figure()
+                shap.plots.beeswarm(shap_values, show=False)
+                st.pyplot(fig_summary)
+
+                st.subheader("🔍 SHAP Force Plot (пример с matplotlib)")
+
+                index_to_explain = st.slider("Выберите индекс примера для интерпретации", 0, len(shap_values) - 1, 0)
+
+                fig = plt.figure()
+                shap.plots.force(
+                    explainer.expected_value,
+                    shap_values[index_to_explain].values,
+                    matplotlib=True
+                )
+                st.pyplot(fig)
 
             # Метрики
             accuracy = accuracy_score(y_test, y_test_pred)
@@ -229,6 +272,31 @@ if "Обучение" in menu:
             st.markdown(f"✅ **Accuracy:** {accuracy:.4f}")
             st.markdown(f"🎯 **Precision:** {precision:.4f}")
             st.markdown(f"🔁 **Recall:** {recall:.4f}")
+            # SHAP анализ
+            st.subheader("🧠 SHAP: Интерпретация модели")
+
+            if model_type == "XGBoost":
+                explainer = shap.Explainer(model, X_train)
+                shap_values = explainer(X_test)
+
+                # Summary plot (общее влияние признаков)
+                st.subheader("📌 SHAP Summary Plot")
+                fig_summary = plt.figure()
+                shap.plots.beeswarm(shap_values, show=False)
+                st.pyplot(fig_summary)
+
+                # Force plot (одно предсказание)
+                st.subheader("🔍 SHAP Force Plot (пример с matplotlib)")
+
+                index_to_explain = st.slider("Выберите индекс примера для интерпретации", 0, len(shap_values) - 1, 0)
+
+                fig = plt.figure()
+                shap.plots.force(
+                    explainer.expected_value,
+                    shap_values[index_to_explain].values,
+                    matplotlib=True
+                )
+                st.pyplot(fig)
 
             # Дополнительные данные
             st.subheader("🔢 Пример расчётов")
@@ -324,6 +392,29 @@ elif "Проверка" in menu:
 
             predictions = model.predict_proba(df_scaled)[:, 1]
             df_original["Вероятность мошенничества"] = predictions
+            if model_type == "xgb":
+                st.subheader("🧠 SHAP: Интерпретация предсказаний")
+                explainer = shap.Explainer(model, df_scaled)
+                shap_values = explainer(df_scaled)
+
+
+
+                st.subheader("📌 SHAP Summary Plot")
+                fig_check = plt.figure()
+                shap.plots.beeswarm(shap_values, show=False)
+                st.pyplot(fig_check)
+
+                st.subheader("🔍 SHAP Force Plot (пример с matplotlib)")
+
+                index_to_explain = st.slider("Выберите индекс примера для интерпретации", 0, len(shap_values) - 1, 0)
+
+                fig = plt.figure()
+                shap.plots.force(
+                    explainer.expected_value,
+                    shap_values[index_to_explain].values,
+                    matplotlib=True
+                )
+                st.pyplot(fig)
 
             # Ползунок для отображения количества строк
             st.subheader("📋 Результаты проверки")
