@@ -1,0 +1,155 @@
+Collecting altair==5.5.0
+  Using cached altair-5.5.0-py3-none-any.whl (731 kB)
+Collecting attrs==25.3.0
+  Using cached attrs-25.3.0-py3-none-any.whl (63 kB)
+Collecting blinker==1.9.0
+  Using cached blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Collecting cachetools==5.5.2
+  Using cached cachetools-5.5.2-py3-none-any.whl (10 kB)
+Collecting certifi==2025.1.31
+  Using cached certifi-2025.1.31-py3-none-any.whl (166 kB)
+Collecting charset-normalizer==3.4.1
+  Using cached charset_normalizer-3.4.1-cp310-cp310-macosx_10_9_universal2.whl (198 kB)
+Collecting click==8.1.8
+  Using cached click-8.1.8-py3-none-any.whl (98 kB)
+Collecting cloudpickle==3.1.1
+  Using cached cloudpickle-3.1.1-py3-none-any.whl (20 kB)
+Collecting contourpy==1.3.1
+  Using cached contourpy-1.3.1-cp310-cp310-macosx_11_0_arm64.whl (253 kB)
+Collecting cycler==0.12.1
+  Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Collecting et_xmlfile==2.0.0
+  Using cached et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+Collecting fonttools==4.56.0
+  Using cached fonttools-4.56.0-cp310-cp310-macosx_10_9_universal2.whl (2.8 MB)
+Collecting gitdb==4.0.12
+  Using cached gitdb-4.0.12-py3-none-any.whl (62 kB)
+Collecting GitPython==3.1.44
+  Using cached GitPython-3.1.44-py3-none-any.whl (207 kB)
+Collecting idna==3.10
+  Using cached idna-3.10-py3-none-any.whl (70 kB)
+Collecting Jinja2==3.1.6
+  Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Collecting joblib==1.4.2
+  Using cached joblib-1.4.2-py3-none-any.whl (301 kB)
+Collecting jsonschema==4.23.0
+  Using cached jsonschema-4.23.0-py3-none-any.whl (88 kB)
+Collecting jsonschema-specifications==2024.10.1
+  Using cached jsonschema_specifications-2024.10.1-py3-none-any.whl (18 kB)
+Collecting kiwisolver==1.4.8
+  Using cached kiwisolver-1.4.8-cp310-cp310-macosx_11_0_arm64.whl (65 kB)
+Collecting llvmlite==0.44.0
+  Using cached llvmlite-0.44.0-cp310-cp310-macosx_11_0_arm64.whl (26.2 MB)
+Collecting MarkupSafe==3.0.2
+  Using cached MarkupSafe-3.0.2-cp310-cp310-macosx_11_0_arm64.whl (12 kB)
+Collecting matplotlib==3.10.1
+  Using cached matplotlib-3.10.1-cp310-cp310-macosx_11_0_arm64.whl (8.0 MB)
+Collecting narwhals==1.30.0
+  Using cached narwhals-1.30.0-py3-none-any.whl (313 kB)
+Collecting numba==0.61.0
+  Using cached numba-0.61.0-cp310-cp310-macosx_11_0_arm64.whl (2.8 MB)
+Collecting numpy==2.2.2
+  Using cached numpy-2.2.2-cp310-cp310-macosx_11_0_arm64.whl (14.4 MB)
+Collecting openpyxl==3.1.5
+  Using cached openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+Collecting packaging==24.2
+  Using cached packaging-24.2-py3-none-any.whl (65 kB)
+Collecting pandas==2.2.3
+  Using cached pandas-2.2.3-cp310-cp310-macosx_11_0_arm64.whl (11.3 MB)
+Collecting pillow==11.1.0
+  Using cached pillow-11.1.0-cp310-cp310-macosx_11_0_arm64.whl (3.1 MB)
+Collecting protobuf==5.29.3
+  Using cached protobuf-5.29.3-cp38-abi3-macosx_10_9_universal2.whl (417 kB)
+Collecting pyarrow==19.0.1
+  Using cached pyarrow-19.0.1-cp310-cp310-macosx_12_0_arm64.whl (30.7 MB)
+Collecting pydeck==0.9.1
+  Using cached pydeck-0.9.1-py2.py3-none-any.whl (6.9 MB)
+Collecting pyparsing==3.2.1
+  Using cached pyparsing-3.2.1-py3-none-any.whl (107 kB)
+Collecting python-dateutil==2.9.0.post0
+  Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Collecting pytz==2024.2
+  Using cached pytz-2024.2-py2.py3-none-any.whl (508 kB)
+Collecting referencing==0.36.2
+  Using cached referencing-0.36.2-py3-none-any.whl (26 kB)
+Collecting requests==2.32.3
+  Using cached requests-2.32.3-py3-none-any.whl (64 kB)
+Collecting rpds-py==0.23.1
+  Using cached rpds_py-0.23.1-cp310-cp310-macosx_11_0_arm64.whl (356 kB)
+Collecting scikit-learn==1.6.1
+  Using cached scikit_learn-1.6.1-cp310-cp310-macosx_12_0_arm64.whl (11.1 MB)
+Collecting scipy==1.15.2
+  Using cached scipy-1.15.2-cp310-cp310-macosx_12_0_arm64.whl (30.1 MB)
+Collecting seaborn==0.13.2
+  Using cached seaborn-0.13.2-py3-none-any.whl (294 kB)
+Collecting shap==0.47.1
+  Using cached shap-0.47.1-cp310-cp310-macosx_11_0_arm64.whl (491 kB)
+Collecting six==1.17.0
+  Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Collecting slicer==0.0.8
+  Using cached slicer-0.0.8-py3-none-any.whl (15 kB)
+Collecting smmap==5.0.2
+  Using cached smmap-5.0.2-py3-none-any.whl (24 kB)
+Collecting streamlit==1.43.2
+  Using cached streamlit-1.43.2-py2.py3-none-any.whl (9.7 MB)
+Collecting tenacity==9.0.0
+  Using cached tenacity-9.0.0-py3-none-any.whl (28 kB)
+Collecting threadpoolctl==3.6.0
+  Using cached threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Collecting toml==0.10.2
+  Using cached toml-0.10.2-py2.py3-none-any.whl (16 kB)
+Collecting tornado==6.4.2
+  Using cached tornado-6.4.2-cp38-abi3-macosx_10_9_universal2.whl (436 kB)
+Collecting tqdm==4.67.1
+  Using cached tqdm-4.67.1-py3-none-any.whl (78 kB)
+Collecting typing_extensions==4.12.2
+  Using cached typing_extensions-4.12.2-py3-none-any.whl (37 kB)
+Collecting tzdata==2025.1
+  Using cached tzdata-2025.1-py2.py3-none-any.whl (346 kB)
+Collecting urllib3==2.3.0
+  Using cached urllib3-2.3.0-py3-none-any.whl (128 kB)
+Collecting watchdog==6.0.0
+  Using cached watchdog-6.0.0-cp310-cp310-macosx_11_0_arm64.whl (89 kB)
+Collecting xgboost==2.1.4
+  Using cached xgboost-2.1.4-py3-none-macosx_12_0_arm64.whl (1.9 MB)
+INFO: pip is looking at multiple versions of narwhals to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of matplotlib to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of markupsafe to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of llvmlite to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of kiwisolver to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of jsonschema-specifications to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of jsonschema to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of joblib to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of jinja2 to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of idna to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of gitpython to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of gitdb to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of fonttools to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of et-xmlfile to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of cycler to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of contourpy to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of cloudpickle to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of click to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of charset-normalizer to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of certifi to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of cachetools to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of blinker to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of attrs to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of <Python from Requires-Python> to determine which version is compatible with other requirements. This could take a while.
+INFO: pip is looking at multiple versions of altair to determine which version is compatible with other requirements. This could take a while.
+ERROR: Cannot install -r requirements.txt (line 23), -r requirements.txt (line 25), -r requirements.txt (line 9) and numpy==2.2.2 because these package versions have conflicting dependencies.
+
+The conflict is caused by:
+    The user requested numpy==2.2.2
+    contourpy 1.3.1 depends on numpy>=1.23
+    matplotlib 3.10.1 depends on numpy>=1.23
+    numba 0.61.0 depends on numpy<2.2 and >=1.24
+
+To fix this you could try to:
+1. loosen the range of package versions you've specified
+2. remove package versions to allow pip attempt to solve the dependency conflict
+
+ERROR: ResolutionImpossible: for help visit https://pip.pypa.io/en/latest/topics/dependency-resolution/#dealing-with-dependency-conflicts
+
+[notice] A new release of pip available: 22.2.2 -> 25.0.1
+[notice] To update, run: pip install --upgrade pip
